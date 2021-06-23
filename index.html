@@ -195,8 +195,8 @@
             them in a cool way!
           </p>
           <p>
-            <a onclick = "photoSection()" href="#" class="btn btn-primary my-2">Load Images</a>
-            <a href="#" class="btn btn-secondary my-2">Load Secondary Images</a>
+            <a onclick = 'photoSection()' href="#" class="btn btn-primary my-2 onone">Load Images</a>
+            <a onclick = 'secondPhotoSection()' href="#" class="btn btn-secondary my-2 ontwo">Load Secondary Images</a>
           </p>
         </div>
       </section>
@@ -650,9 +650,9 @@
     <script>
 
       
-      window.onload = function(){
-        photoSection()
-      }
+     //window.onload = function(){
+      //secondPhotoSection()
+      //} 
     
   const photoSection = function()
     {
@@ -667,31 +667,72 @@
 .then(data => data.json())
 
 .then(response => {
-	console.log(response)
+	console.log(response.photos[4].url)
   let position = document.querySelectorAll('svg')
-  for(i=0;i<=position.length;i++)
+  for(i=0;i<position.length;i++)
   {
     position[i].style.display = "none"
   }
   
+  let selectDiv = document.querySelectorAll('.card')
   
-  let 
-    /*let image = document.createElement('img')
-    image.setAttribute('src',response.photos[i].photographer_url)
+  for(let i=0;i<=selectDiv.length;i++)
+  {
+
+  let createImg = document.createElement('img')
+  createImg.setAttribute('src',response.photos[i].src.medium)
+  let targetBefore = document.querySelectorAll('.card-body')[i]
+  selectDiv[i].insertBefore(createImg,targetBefore)
+  targetBefore.innerText = response.photos[i].photographer
+  targetBefore.style.backgroundColor = 'yellowgreen'
+  let alter = document.getElementsByTagName('img')[i]
+  alter.style.height = '208px'
+  
+  
+  }
+  
+  })
+
+.catch(err => console.error(err))
     
-    selectDiv = document.querySelectorAll('.card')
-    selectDiv.insertBefore(image,document.querySelectorAll('.card-body'))
+}
 
-    for(i=0;i<=addImageLocation.length;i++)
+///////////////////////////////////////////////////////
+
+const secondPhotoSection = function()
+{
+  fetch('https://api.pexels.com/v1/search?query=[your-secondary-query]', {
+	"method": "GET",
+	"headers": {
+    "Authorization": "563492ad6f91700001000001a37e101a71da4ee5a27ddac8d09db960"
+	}
+})
+
+.then(data2 => data2.json())
+.then(response2 => {
+  
+  console.log(response2)
+
+  let pos2 = document.querySelectorAll('svg')
+  for(i=0;i<pos2.length;i++)
+  {
+    pos2[i].style.display = "none"
+  }
+    let select2Div = document.querySelectorAll('.card')
+    for(let i=0; i<=select2Div.length;i++)
     {
-    addImageLocation.setAttribute('img', response.photos[i].photographer_url)
-    }*/
-
+  let createImg = document.createElement('img')
+  createImg.setAttribute('src',response2.photos[i].src.medium)
+  let targetBefore = document.querySelectorAll('.card-body')[i]
+  select2Div[i].insertBefore(createImg,targetBefore)
+  let alter = document.getElementsByTagName('img')[i]
+  alter.style.height = '208px'
+    }
 
 })
 
 .catch(err => console.error(err))
-    
+
 }
 
 
